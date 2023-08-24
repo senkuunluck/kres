@@ -1,0 +1,56 @@
+board = list(range(1, 10))
+
+win = [(1, 2, 3), (4, 5, 6), (7, 8, 9), (1, 4, 7), (2, 5, 8), (3, 6, 9), (1, 5, 9), (3, 5, 7)]
+
+
+def playboard():
+    print('-------------')
+    for i in range(3):
+        print('|', board[0 + i * 3], '|', board[1 + i * 3], '|', board[2 + i * 3], '|')
+    print('-------------')
+
+
+def check_input(token):
+    while True:
+        value = input('Укажите куда поставить ' + token + ':')
+        if not (value in '123456789'):
+            print('Ошибка. Необходимо указать целое число')
+            continue
+        value = int(value)
+        if str(board[value - 1]) in 'XO':
+            print('Клетка уже занята. Введите другое число')
+            continue
+        board[value - 1] = token
+        break
+
+
+def check_result():
+    for i in win:
+        if (board[i[0] - 1]) == (board[i[1] - 1]) == (board[i[2] - 1]):
+            return board[i[1] - 1]
+    else:
+        return False
+
+
+def game():
+    counter = 0
+    while True:
+        playboard()
+        if counter % 2 == 0:
+            check_input('X')
+        else:
+            check_input('O')
+        if counter > 3:
+            winner = check_result()
+            if winner:
+                playboard()
+                print(winner, 'победил!')
+                break
+        counter += 1
+        if counter > 8:
+            playboard()
+            print('Ничья!')
+            break
+
+
+game()
